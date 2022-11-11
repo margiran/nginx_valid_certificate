@@ -40,10 +40,19 @@ cd nginx_valid_certificate
 ### Configure variables 
 Configure variables Within the variables.tf file, change to configure to point to your domain 
 
+- copy the sample variable file
+
 ```
-variable "hosted_zone_name"  { default = "St.something.com"}
-variable "email"  { default = "an_email@address.com"}
-variable "record_name"  { default = "test.St.something.com"}
+cp variables.auto.tf.sample variables.auto.tf
+```
+
+- update `variables.auto.tf` file
+
+```
+security_group_name=replace
+record_name=replace
+hosted_zone_name=replace
+email=replace
 ```
 
 ### Build infrastructure using Terraform:

@@ -3,3 +3,4 @@
 .terraform.tfstate.lock.info
 .variables.tf.bak
 terraform.tfstate*
+*.tfvars
