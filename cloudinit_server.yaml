@@ -25,20 +25,21 @@ write_files:
     permissions: '0750'
     path: /etc/run_certbot
 runcmd:
-  - until ping -c1 archive.ubuntu.com &>/dev/null; do echo "waiting for networking to initialise" ; sleep 3 ; done 
-  - sudo apt-get -y update
-  - sudo DEBIAN_FRONTEND=noninteractive apt-get -y install certbot
-  - sudo DEBIAN_FRONTEND=noninteractive apt-get -y install python3-certbot-nginx
-  - sudo DEBIAN_FRONTEND=noninteractive apt-get -y install nginx
-  - sudo systemctl stop nginx
-  - sudo cp /etc/nginx/sites-available/default /etc/nginx.default.back.apt
-  - sudo cp /etc/nginx.conf.cloud_init /etc/nginx/sites-available/default
-  - sudo systemctl enable nginx
-  - sudo systemctl stop nginx
-  - sudo systemctl start nginx
-  - sudo /etc/run_certbot
-  - sudo systemctl stop nginx
-  - sudo systemctl start nginx
+  - |
+    until ping -c1 archive.ubuntu.com &>/dev/null; do echo "waiting for networking to initialise" ; sleep 3 ; done 
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get -y update
+    apt-get -y install certbot python3-certbot-nginx nginx
+    systemctl stop nginx
+    cp /etc/nginx/sites-available/default /etc/nginx.conf.apt
+    [ -f /etc/nginx/sites-available/default ] && rm /etc/nginx/sites-available/default
+    cp /etc/nginx.conf.cloud_init /etc/nginx/sites-available/default
+    systemctl enable nginx
+    systemctl stop nginx
+    systemctl start nginx
+    bash /etc/run_certbot
+    systemctl stop nginx
+    systemctl start nginx
 packages_update: true
 packages:
   - unzip
