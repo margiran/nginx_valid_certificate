@@ -19,14 +19,17 @@ variable "server_instance_type" {
 variable "record_name" {
   description = "dns recored will be add to route53"
   type        = string
+  default     = "reza.bg.hashicorp-success.com"
 }
 
 variable "hosted_zone_name" {
   description = "hosted zone name "
   type        = string
+  default     = "bg.hashicorp-success.com"
 }
 
 variable "email" {
   description = "an email use for lets encrypt "
   type        = string
+  default     = "margiran@gmail.com"
 }
