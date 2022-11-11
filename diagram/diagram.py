@@ -10,7 +10,7 @@ from diagrams.aws.network    import Route53
 from diagrams.onprem.compute import Server
 
 with Diagram("Nginx valid certificate", show=False):
-    client = Server("Client")
+    client = Server("Client - Terraform")
     lets = Server("Lets encrypt")
     # dns = Route53("Route53")
     # internet = Internet("internet")
@@ -21,5 +21,6 @@ with Diagram("Nginx valid certificate", show=False):
 
 
             client >> nginx
+            client >> dns
             nginx >> lets
             nginx >> dns
