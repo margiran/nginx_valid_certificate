@@ -43,10 +43,10 @@ Configure variables Within the variables.tf file, change to configure to point t
 - copy the sample variable file
 
 ```
-cp variables.auto.tf.sample variables.auto.tf
+cp variables.auto.tf.sample variables.auto.tfvars
 ```
 
-- update `variables.auto.tf` file
+- update `variables.auto.tfvars` file
 
 ```
 security_group_name=replace
