@@ -19,17 +19,14 @@ variable "server_instance_type" {
 variable "record_name" {
   description = "dns recored will be add to route53"
   type        = string
-  default     = "test.St.something.com"
 }
 
 variable "hosted_zone_name" {
   description = "hosted zone name "
   type        = string
-  default     = "St.something.com"
 }
 
 variable "email" {
   description = "an email use for lets encrypt "
   type        = string
-  default     = "an_email@address.com"
 }

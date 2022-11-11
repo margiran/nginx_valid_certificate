@@ -35,8 +35,14 @@ git clone git@github.com:margiran/nginx_valid_certificate.git
 cd nginx_valid_certificate
 ```
 
-### Clone the repository
+### Configure variables 
+Configure variables Within the variables.tf file, change to configure to point to your domain 
 
+```
+variable "hosted_zone_name"  { default = "St.something.com"}
+variable "email"  { default = "an_email@address.com"}
+variable "record_name"  { default = "test.St.something.com"}
+```
 
 ### Build infrastructure using Terraform:
 
