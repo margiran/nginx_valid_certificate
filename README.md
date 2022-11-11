@@ -1,4 +1,6 @@
-# Provision a Nginx and get valid certificate from Let`s encrypt on AWS Using Terraform
+# Provision a Nginx with valid certificate
+
+### using Terraform, Let`s Encrypt, AWS 
 
 ![datacenter image](https://github.com/margiran/nginx_valid_certificate/blob/master/diagram/nginx_valid_certificate.png?raw=true)
 
