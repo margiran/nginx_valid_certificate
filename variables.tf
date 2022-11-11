@@ -7,7 +7,7 @@ variable "security_group_name" {
 variable "ami" {
   description = "The AMI to run in the cluster"
   type        = string
-  default = "ami-0c55b159cbfafe1f0"
+  default     = "ami-0c55b159cbfafe1f0"
 }
 
 variable "server_instance_type" {

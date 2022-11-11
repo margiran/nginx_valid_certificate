@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
-    acme = {
-      source  = "vancluever/acme"
-      version = "~> 2.0"
-    }
   }
 }
 
@@ -19,10 +15,14 @@ data "aws_vpc" "default" {
   default = true
 }
 
-resource "aws_key_pair" "my_key" {
+resource "aws_key_pair" "private_key" {
   key_name = "key-terraform-${random_pet.pet.id}_${terraform.workspace}"
 
-  public_key = "${file("~/.ssh/key_pair.pub")}"
+  public_key = file("~/.ssh/key_pair.pub")
+}
+
+resource "aws_key_pair" "generated_key" {
+  public_key = tls_private_key.private_key.public_key_openssh
 }
 
 data "http" "myip" {
@@ -47,19 +47,19 @@ resource "aws_security_group" "instances" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-ingress {
+  ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
- ingress {
+  ingress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-   # opening port 22 to be able to ssh to the instances
+  # opening port 22 to be able to ssh to the instances
   ingress {
     from_port   = 22
     to_port     = 22
@@ -79,8 +79,7 @@ resource "aws_instance" "server" {
   ami                    = var.ami
   instance_type          = var.server_instance_type
   vpc_security_group_ids = [aws_security_group.instances.id]
-  # iam_instance_profile   = aws_iam_instance_profile.instance_profile.name
-  key_name               = aws_key_pair.my_key.key_name
+  key_name               = aws_key_pair.generated_key.key_name
   root_block_device {
     volume_size = 100
     volume_type = "io1"
@@ -88,14 +87,14 @@ resource "aws_instance" "server" {
   }
   user_data = templatefile("cloudinit_server.yaml", {
     record-fqdn = var.record_name,
-    email        = var.email
+    email       = var.email
   })
   tags = {
     Name = "server_${random_pet.pet.id}_${terraform.workspace}"
   }
 }
 data "aws_route53_zone" "base_domain" {
-  name = var.hosted_zone_name 
+  name = var.hosted_zone_name
 }
 resource "aws_route53_record" "www" {
   zone_id = data.aws_route53_zone.base_domain.zone_id

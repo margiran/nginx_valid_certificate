@@ -50,7 +50,16 @@ variable "record_name"  { default = "test.St.something.com"}
 terraform init
 terraform apply
 ```
-### Access the cluster
+
+### Access the certified domain
+
+Use following commands to capture the domain address:
+
+```
+terraform output https_domain
+```
+
+### Access the server
 
 Use following commands to capture the private key in a pem file:
 
